@@ -9,16 +9,22 @@ const M = require('./music');
 
 const noop = function() {};
 
+const defaultUrl = 'https://www.ctchen.cn/api';
+
 function ajax(option = {}) {
     return new Promise(function(resolve, reject) {
-        option = M.extend({ method: 'POST' }, option);
+        option = M.extend({ method: 'POST', url: defaultUrl }, option);
 
         let successCallback = option.success || noop;
         let failCallback = option.fail || noop;
 
+        console.log(option);
+
         option.success = function(res) {
+            console.log(res);
+
             successCallback(res);
-            if (res.statusCode >= 200 || res.statusCode <= 300 || res.statusCode == 304) {
+            if ((res.statusCode >= 200 && res.statusCode <= 300) || res.statusCode == 304) {
                 resolve(res);
             } else {
                 reject(res);

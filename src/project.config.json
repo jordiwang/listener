@@ -42,8 +42,8 @@
 				{
 					"id": 0,
 					"name": "分享",
-					"pathName": "pages/index/index",
-					"query": "roomid=73",
+					"pathName": "pages/room/room",
+					"query": "roomid=125",
 					"scene": "1007"
 				}
 			]

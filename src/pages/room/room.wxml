@@ -1,0 +1,105 @@
+<!-- index.wxml -->
+<view class="bg_group">
+    <!-- 当前背景加current -->
+    <!-- 等待房间用这个 -->
+    <image src="/images/wait_bg.jpg" class="bg_group__item {{isWaiting ? 'current' : ''}}" mode="scaleToFill"></image>
+    <!-- 进入房间后用这个加current -->
+    <image src="/images/bg.png" class="bg_group__item {{isWaiting ? '' : 'current'}}" mode="scaleToFill"></image>
+    <view class="bg_group__item linear"></view>
+</view>
+<!-- 进入等待加room，好友准备好了加go,点了开启就去掉room和go，正在生成加load，最后加music -->
+<view class="wrap {{roomState}}" bind:tap="getUserInfo">
+    <view class="user_group">
+        <view class="user_group__item first">
+            <image src="{{roomInfo.users[0].avatar}}" class="user_group__cover"></image>
+        </view>
+        <view class="user_group__item second">
+            <image src="{{roomInfo.users[1].avatar}}" class="user_group__cover"></image>
+            <view class="user_group__circle">
+                <view class="user_group__circle_item"></view>
+                <view class="user_group__circle_item"></view>
+                <view class="user_group__circle_item"></view>
+                <view class="user_group__circle_item"></view>
+            </view>
+        </view>
+        <view class="user_group__time">00:23</view>
+    </view>
+    <view class="content_room">
+        <image src="/images/success.png" class="success_txt"></image>
+        <button open-type="getUserInfo" bind:getuserinfo="getUserInfo" class="index_btn">
+            <image src="/images/index_btn.png" class="index_btn__bg"></image>
+            <image src="/images/index_btn_txt.png" class="index_btn__txt"></image>
+        </button>
+    </view>
+    <view class="content_load">
+        <image src="/images/load.png" class="load_txt"></image>
+    </view>
+    <!-- 下线 -->
+    <button class="btn_offline">下线</button>
+    <!-- song -->
+    <view class="song" bind:touchstart="songTouchStart" bind:touchend="songTouchEnd">
+        <view class="song_name">{{currentSongInfo.name}}</view>
+        <view class="song_info">{{currentSongInfo.singername}}</view>
+        <view class="song_lyrics" style="display:none">
+            <!-- 当前歌词 current -->
+            <view class="song_lyrics__item">Trouble will find you no matter where you go1</view>
+            <view class="song_lyrics__item current">
+                Trouble will find you no matter where you go2
+            </view>
+            <view class="song_lyrics__item">Trouble will find you no matter where you go3</view>
+        </view>
+        <view class="line_group">
+            <view class="line_group__item line_group__item1">
+                <image src="/images/line1.png" class="line_group__pic line_group__pic1"></image>
+                <image src="/images/line1.png" class="line_group__pic line_group__pic1"></image>
+            </view>
+            <view class="line_group__item line_group__item2">
+                <image src="/images/line2.png" class="line_group__pic line_group__pic2"></image>
+                <image src="/images/line2.png" class="line_group__pic line_group__pic2"></image>
+            </view>
+            <view class="line_group__item line_group__item3">
+                <image src="/images/line3.png" class="line_group__pic line_group__pic3"></image>
+                <image src="/images/line3.png" class="line_group__pic line_group__pic3"></image>
+            </view>
+        </view>
+    </view>
+    <view class="tool_bar">
+        <button bind:tap="favSong" class="tool_bar__item">
+            <!-- 切换 like_done.png -->
+            <image style="{{currentSongInfo.isFav ? 'display:none' : ''}}" src="/images/like.png" class="tool_bar__icon"></image>
+            <image style="{{currentSongInfo.isFav ? '' : 'display:none'}}" src="/images/like_done.png" class="tool_bar__icon"></image>
+        </button>
+        <button bind:tap="addSong" class="tool_bar__item">
+            <image src="/images/add.png" class="tool_bar__icon"></image>
+        </button>
+        <button bind:tap="toggleList" data-show="1" class="tool_bar__item">
+            <image src="/images/list.png" class="tool_bar__icon"></image>
+        </button>
+        <button bind:tap="setting" class="tool_bar__item">
+            <image src="/images/home.png" class="tool_bar__icon"></image>
+        </button>
+    </view>
+</view>
+<!-- 提示 -->
+<view class="tips" style="left:50rpx;display:none;">两个人都可以添加歌曲到空间播放队列</view>
+<!-- 空间播放队列 -->
+<view class="dialog">
+    <view class="dialog_playlist">
+        <image src="/images/arrow.png" class="dialog_playlist__arrow"></image>
+        <view class="dialog_playlist__hd">
+            <view class="dialog_playlist__tit">亲密电台</view>
+            <button class="dialog_playlist_btn">
+                <image src="/images/playlist_add.png" class="dialog_playlist_btn__icon"></image>
+            </button>
+            <button class="dialog_playlist_btn">
+                <image src="/images/playlist_delete.png" class="dialog_playlist_btn__icon"></image>
+            </button>
+        </view>
+        <view class="dialog_playlist__bd">
+            <!-- 播放态 play -->
+            <view bind:tap="playListSong" data-id="{{item.id}}" class="dialog_playlist__song {{item.id == currentSongInfo.id ? 'play' : ''}}" wx:for="{{songList}}" wx:for-index="idx" wx:for-item="item" wx:key="item.id">
+                <view class="dialog_playlist__name">{{item.name}}</view>
+            </view>
+        </view>
+    </view>
+</view>

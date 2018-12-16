@@ -1,0 +1,61 @@
+<view class="wrap">
+    <view class="mod_search">
+        <label class="search__label">
+            <image src="/images/search.png" class="search__img"></image>
+            <text>搜索歌曲/歌手/专辑</text>
+        </label>
+        <input class="search__input" />
+    </view>
+    <view class="songlist">
+        <!-- 播放态 play -->
+        <!-- 无版权 disabled -->
+        <view class="songlist__item c_bor1" wx:for="{{songlist}}" wx:for-index="idx" wx:for-item="item">
+            <view class="songlist__body">
+                <text class="songlist__tit c_txt1">{{item.songname}}</text>
+                <text class="songlist__desc c_txt1 c_txt2">{{item.singer}}</text>
+            </view>
+            <view class="songlist__opt">
+                <button class="songlist__btn">添加</button>
+            </view>
+        </view>
+    </view>
+    <!-- <view class="playlist">
+        点整个都可以添加……
+        <view class="playlist__item">
+            <view class="playlist__cover">
+                <image src="https://p.qpic.cn/music_cover/9nRiabv4x7ia0PE103qdsno5zQEsdXcLXJ90WO7I5qiauicpib7l0n4kveQ/300?n=1" class="playlist__img"></image>
+                <view class="playlist__mask">
+                    <image src="/images/cover_like.png" class="playlist__icon"></image>
+                </view>
+                <view class="playlist__btn_add">
+                    <image src="/images/add.png" class="playlist__icon_add"></image>
+                </view>
+            </view>
+            <view class="playlist__txt">我喜欢</view>
+        </view>
+        <view class="playlist__item">
+            <view class="playlist__cover">
+                <image src="https://p.qpic.cn/music_cover/9nRiabv4x7ia0PE103qdsno5zQEsdXcLXJ90WO7I5qiauicpib7l0n4kveQ/300?n=1" class="playlist__img"></image>
+                <view class="playlist__mask">
+                    <image src="/images/cover_time.png" class="playlist__icon"></image>
+                </view>
+                <view class="playlist__btn_add">
+                    <image src="/images/add.png" class="playlist__icon_add"></image>
+                </view>
+            </view>
+            <view class="playlist__txt">最近播放</view>
+        </view>
+    </view> -->
+    <text class="playlist_tit">热门歌单</text>
+    <view class="playlist">
+        <view bind:tap="addList" class="playlist__item" wx:for="{{mixList}}" wx:for-index="idx" wx:for-item="item" wx:key="item.id" data-id="{{item.id}}">
+            <view class="playlist__cover">
+                <image src="{{item.picUrl}}" class="playlist__img"></image>
+                <view class="playlist__btn_add">
+                    <image src="/images/add.png" class="playlist__icon_add"></image>
+                </view>
+            </view>
+            <view class="playlist__txt">{{item.songListDesc}}</view>
+        </view>
+    </view>
+</view>

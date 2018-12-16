@@ -6,6 +6,7 @@
  */
 
 const ajax = require('../common/ajax');
+const websocket = require('../common/websocket');
 const M = require('../common/music');
 
 const action = {
@@ -31,7 +32,7 @@ const action = {
                     })
                         .then(res => {
                             if (res.data && res.data.code == 0) {
-                                this.setGlobal('userInfo', M.extend(this.app.globalData.userInfo, res.data));
+                                this.setGlobalData('userInfo', M.extend(this.app.globalData.userInfo, res.data));
 
                                 resolve(this.app.globalData.userInfo);
                             } else {
@@ -47,7 +48,7 @@ const action = {
             wx.getUserInfo({
                 // 使用箭头函数保证 this 指向
                 success: res => {
-                    this.setGlobal('userInfo', M.extend(this.app.globalData.userInfo, res.userInfo));
+                    this.setGlobalData('userInfo', M.extend(this.app.globalData.userInfo, res.userInfo));
 
                     authData.encryptData = res.encryptedData;
                     authData.signature = res.signature;
@@ -64,7 +65,7 @@ const action = {
 
             wx.login({
                 success: res => {
-                    this.setGlobal('userInfo', M.extend(this.app.globalData.userInfo, { code: res.code }));
+                    this.setGlobalData('userInfo', M.extend(this.app.globalData.userInfo, { code: res.code }));
 
                     authData.code = res.code;
 
@@ -72,6 +73,134 @@ const action = {
                     _getMusicUserInfo();
                 }
             });
+        });
+    },
+
+    /**
+     * 登录小程序
+     *
+     * @returns
+     */
+    login() {
+        return ajax({
+            data: {
+                api_type: 1,
+                uin: M.user.getUin()
+            }
+        });
+    },
+
+    /**
+     * 创建房间
+     *
+     * @returns
+     */
+    createRoom() {
+        return websocket.send({
+            uin: M.user.getUin(),
+            ws_type: 1,
+            room_cover: ''
+        });
+    },
+
+    /**
+     * 加入房间
+     *
+     * @returns
+     */
+    joinRoom() {
+        return websocket.send({
+            uin: M.user.getUin(),
+            ws_type: 2,
+            room_id: this.app.globalData.roomInfo.room_id
+        });
+    },
+
+    /**
+     * 离开房间
+     *
+     * @returns
+     */
+    exitRoom() {
+        return websocket.send({
+            uin: M.user.getUin(),
+            ws_type: 3,
+            room_id: this.app.globalData.roomInfo.room_id
+        });
+    },
+
+    /**
+     * 销毁房间
+     *
+     * @returns
+     */
+    removeRoom() {
+        return websocket.send({
+            uin: M.user.getUin(),
+            ws_type: 4,
+            room_id: this.app.globalData.roomInfo.room_id
+        });
+    },
+
+    /**
+     * 更换歌曲
+     *
+     * @param {Number} songid
+     * @returns
+     */
+    changeSong(songid) {
+        return websocket.send({
+            uin: M.user.getUin(),
+            ws_type: 6,
+            song_id: parseInt(songid)
+        });
+    },
+
+    /**
+     * 操作歌曲
+     *
+     * {
+     *  ws_type: 7,     // 类型 7 添加 8 删除 9 收藏
+     *  song_id: 0,     // 歌曲 id
+     *  song_type: 0,   // 歌曲类型
+     *  playlist_id: 0  // 要添加的歌单 id
+     * }
+     *
+     * @param {Object} data
+     * @returns
+     */
+    operateSong(data) {
+        return websocket.send(
+            M.extend(
+                {
+                    uin: M.user.getUin()
+                },
+                data
+            )
+        );
+    },
+
+    /**
+     * 上报播放时长，进度
+     *
+     */
+    reportTime() {
+        // return
+    },
+
+    /**
+     * 热门歌单
+     *
+     */
+    getMixList() {
+        return ajax({
+            url: 'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg'
+        }).then(res => {
+            console.log(res);
+
+            if (res.data && res.data.data) {
+                this.setGlobalData('mixList', res.data.data.songList || []);
+            }
         });
     }
 };

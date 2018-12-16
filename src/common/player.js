@@ -303,7 +303,7 @@ class Player {
      * @returns {Promise}   返回 promise，传入 songMap
      * @memberof Player
      */
-    getSongInfo(songs, opt) {
+    getSongInfo(songs, opt = {}) {
         return new Promise(function(resolve, reject) {
             // 通过id查询歌曲信息
             let paramId = {

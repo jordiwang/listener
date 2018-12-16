@@ -130,7 +130,7 @@ class Store extends Observer {
     }
 
     // 设置 global 变量
-    setGlobal(key, payload) {
+    setGlobalData(key, payload) {
         this.app.globalData[key] = payload;
         this.emit(key, payload);
     }

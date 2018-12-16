@@ -1,0 +1,24 @@
+<!-- pages/index/index.wxml -->
+<view class="bg_group">
+    <image src="/images/index_bg.jpg" class="bg_group__item" mode="scaleToFill"></image>
+    <view class="bg_group__item linear"></view>
+</view>
+<view class="wrap">
+    <view class="content">
+        <image src="/images/index_txt.png" class="index_txt"></image>
+        <view class="snow">
+            <view class="snow__item snow__item1"></view>
+            <view class="snow__item snow__item2"></view>
+            <view class="snow__item snow__item3"></view>
+            <view class="snow__item snow__item4"></view>
+            <view class="snow__item snow__item5"></view>
+            <view class="snow__item snow__item6"></view>
+            <view class="snow__item snow__item7"></view>
+            <view class="snow__item snow__item8"></view>
+        </view>
+    </view>
+    <button open-type="getUserInfo" bind:getuserinfo="getUserInfo" class="index_btn">
+        <image src="/images/index_btn.png" class="index_btn__bg"></image>
+        <image src="/images/index_btn_txt.png" class="index_btn__txt"></image>
+    </button>
+</view>
