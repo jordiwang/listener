@@ -32,7 +32,7 @@ const action = {
                     })
                         .then(res => {
                             if (res.data && res.data.code == 0) {
-                                this.setGlobalData('userInfo', M.extend(this.app.globalData.userInfo, res.data));
+                                this.setGlobal('userInfo', M.extend(this.app.globalData.userInfo, res.data));
 
                                 resolve(this.app.globalData.userInfo);
                             } else {
@@ -45,32 +45,29 @@ const action = {
                 }
             };
 
-            wx.getUserInfo({
-                // 使用箭头函数保证 this 指向
-                success: res => {
-                    this.setGlobalData('userInfo', M.extend(this.app.globalData.userInfo, res.userInfo));
-
-                    authData.encryptData = res.encryptedData;
-                    authData.signature = res.signature;
-                    authData.rawData = res.rawData;
-                    authData.iv = res.iv;
-
-                    // 调 cgi 获取 uin 等信息
-                    _getMusicUserInfo();
-                },
-                fail(err) {
-                    reject(err);
-                }
-            });
-
             wx.login({
-                success: res => {
-                    this.setGlobalData('userInfo', M.extend(this.app.globalData.userInfo, { code: res.code }));
+                success: loginRes => {
+                    this.setGlobalData('userInfo', M.extend(this.app.globalData.userInfo, { code: loginRes.code }));
 
-                    authData.code = res.code;
+                    authData.code = loginRes.code;
 
-                    // 调 cgi 获取 uin 等信息
-                    _getMusicUserInfo();
+                    wx.getUserInfo({
+                        // 使用箭头函数保证 this 指向
+                        success: res => {
+                            this.setGlobalData('userInfo', M.extend(this.app.globalData.userInfo, res.userInfo));
+
+                            authData.encryptData = res.encryptedData;
+                            authData.signature = res.signature;
+                            authData.rawData = res.rawData;
+                            authData.iv = res.iv;
+
+                            // 调 cgi 获取 uin 等信息
+                            _getMusicUserInfo();
+                        },
+                        fail(err) {
+                            reject(err);
+                        }
+                    });
                 }
             });
         });
