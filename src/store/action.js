@@ -32,7 +32,7 @@ const action = {
                     })
                         .then(res => {
                             if (res.data && res.data.code == 0) {
-                                this.setGlobal('userInfo', M.extend(this.app.globalData.userInfo, res.data));
+                                this.setGlobalData('userInfo', M.extend(this.app.globalData.userInfo, res.data));
 
                                 resolve(this.app.globalData.userInfo);
                             } else {
