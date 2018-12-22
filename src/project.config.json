@@ -14,7 +14,7 @@
 	"compileType": "miniprogram",
 	"libVersion": "2.4.0",
 	"appid": "wx0c329c5721be06db",
-	"projectname": "qm-listener",
+	"projectname": "listener",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
