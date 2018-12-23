@@ -199,6 +199,30 @@ const action = {
                 this.setGlobalData('mixList', res.data.data.songList || []);
             }
         });
+    },
+
+    /**
+     * 搜索歌曲
+     *
+     * @param {String} word
+     * @returns
+     */
+    serach({ word }) {
+        return ajax({
+            url: 'https://elsonzhang.cn/search',
+            method: 'GET',
+            data: {
+                format: 'json',
+                w: word,
+                zhidaqu: 1,
+                catZhida: 1,
+                sem: 1,
+                aggr: 1,
+                perpage: 20,
+                n: 20,
+                p: 1
+            }
+        });
     }
 };
 

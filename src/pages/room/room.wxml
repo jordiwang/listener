@@ -83,7 +83,7 @@
 <!-- 提示 -->
 <view class="tips" style="left:50rpx;display:none;">两个人都可以添加歌曲到空间播放队列</view>
 <!-- 空间播放队列 -->
-<view class="dialog">
+<view class="dialog" style="{{showList ? '' : 'display:none'}}">
     <view class="dialog_playlist">
         <image src="/images/arrow.png" class="dialog_playlist__arrow"></image>
         <view class="dialog_playlist__hd">

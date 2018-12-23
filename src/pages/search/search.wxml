@@ -4,17 +4,17 @@
             <image src="/images/search.png" class="search__img"></image>
             <text>搜索歌曲/歌手/专辑</text>
         </label>
-        <input class="search__input" />
+        <input class="search__input" bindinput="inputSearch" />
     </view>
     <view class="songlist">
         <!-- 播放态 play -->
         <!-- 无版权 disabled -->
-        <view class="songlist__item c_bor1" wx:for="{{songlist}}" wx:for-index="idx" wx:for-item="item">
+        <view class="songlist__item c_bor1" wx:for="{{searchList}}" wx:for-index="idx" wx:for-item="item" wx:key="item.songid">
             <view class="songlist__body">
                 <text class="songlist__tit c_txt1">{{item.songname}}</text>
-                <text class="songlist__desc c_txt1 c_txt2">{{item.singer}}</text>
+                <text class="songlist__desc c_txt1 c_txt2">{{item.singername}}</text>
             </view>
-            <view class="songlist__opt">
+            <view class="songlist__opt" bind:tap="addSong" data-songid="{{item.songid}}">
                 <button class="songlist__btn">添加</button>
             </view>
         </view>

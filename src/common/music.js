@@ -170,7 +170,7 @@ const M = {
     user: {
         getUin() {
             if (app.globalData.userInfo.music_uin) {
-                return app.globalData.userInfo.music_uin || 0;
+                return parseInt(app.globalData.userInfo.music_uin) || 0;
             } else {
                 return 0;
             }
